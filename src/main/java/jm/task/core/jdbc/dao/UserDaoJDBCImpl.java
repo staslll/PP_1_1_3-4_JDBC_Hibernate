@@ -23,7 +23,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 " NAME VARCHAR(300) NOT NULL," +
                 "LASTNAME VARCHAR(300) NOT NULL," +
                 "AGE INT NOT NULL)";
-        try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sql)) {
+        try (Connection connection = Util.getConnection();
+                PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sql)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -32,8 +33,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         String sql = "DROP TABLE IF EXISTS USERS";
-
-        try (PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sql)) {
+        try (Connection connection = Util.getConnection();
+        PreparedStatement preparedStatement = Util.getConnection().prepareStatement(sql)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
