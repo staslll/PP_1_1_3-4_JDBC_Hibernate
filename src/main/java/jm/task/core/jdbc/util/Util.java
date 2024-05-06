@@ -1,8 +1,14 @@
 package jm.task.core.jdbc.util;
 
+import jm.task.core.jdbc.model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 
 
 public class Util {
@@ -20,6 +26,21 @@ public class Util {
         }
         return connection;
 
+    }
+    private static SessionFactory factory;
+    public static SessionFactory getFactory() {
+            Configuration configuration =new Configuration();
+            configuration.setProperty("hibernate.connection.url",URL);
+            configuration.setProperty("hibernate.connection.username",USER);
+            configuration.setProperty("hibernate.connection.password",PASWORD);
+            configuration.setProperty("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+            configuration.setProperty("hibernate.show_sql","true");
+            configuration.addAnnotatedClass(User.class);
+            factory = configuration.buildSessionFactory();
+        return configuration.buildSessionFactory();
+    }
+    public static void closeFactory () {
+        getFactory().close();
     }
 }
 
